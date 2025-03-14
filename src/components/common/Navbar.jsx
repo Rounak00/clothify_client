@@ -20,7 +20,7 @@ const Navbar = () => {
    <nav className='container mx-auto flex items-center justify-between py-4 px-6'>
        <div className='h-10 w-24 flex justify-center items-center'><Link to="/"><img src={Logo} alt="Clothify" /></Link></div>
        <div className='hidden md:flex space-x-6'>
-              <Link to="#" className='text-gray-700 hover:text-black text-md font-medium uppercase'>
+              <Link to="collections/all" className='text-gray-700 hover:text-black text-md font-medium uppercase'>
                   Men
               </Link>
               <Link to="#" className='text-gray-700 hover:text-black text-md font-medium uppercase'>
@@ -60,7 +60,7 @@ const Navbar = () => {
       <div className='p-4'>
         <h2 className='text-xl font-semibold mb-4'>Menu</h2>
         <nav className='space-y-4'>
-            <Link to="#" onClick={toggleNavDrawer} className='block text-gray-600 hover:text-black'>Men</Link>
+            <Link to="collections/all" onClick={toggleNavDrawer} className='block text-gray-600 hover:text-black'>Men</Link>
                       <Link to="#" onClick={toggleNavDrawer} className='block text-gray-600 hover:text-black'>Women</Link>
                       <Link to="#" onClick={toggleNavDrawer} className='block text-gray-600 hover:text-black'>Bottom Wear</Link>
                       <Link to="#" onClick={toggleNavDrawer} className='block text-gray-600 hover:text-black'>Top Wear</Link>
