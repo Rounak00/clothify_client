@@ -12,6 +12,12 @@ import Checkout from './components/cart/Checkout';
 import OrderConfirnation from './pages/OrderConfirnation';
 import OrderDetails from './pages/OrderDetails';
 import MyOrders from './pages/MyOrders';
+import AdminLayout from './components/Layout/AdminLayout';
+import AdminHomePage from './components/admin/AdminHomePage';
+import UserManagement from './components/admin/UserManagement';
+import ProductManagement from './components/admin/ProductManagement';
+import EditPtoduct from './components/admin/EditPtoduct';
+import OrderManagement from './components/admin/OrderManagement';
 const App = () => {
   return (
     <BrowserRouter>
@@ -29,7 +35,13 @@ const App = () => {
         <Route path="product/:id" element={<ProductDetails />} />
         <Route path="collections/:collection" element={<Collection />} />
       </Route>
-      <Route>{/*Admin Layout*/}</Route>
+      <Route path="/admin" element={<AdminLayout/>} >{/*Admin Layout*/}
+       <Route index element={<AdminHomePage/>}/>
+       <Route path='users' element={<UserManagement/>}/>
+       <Route path="products" element={<ProductManagement/>}/>
+       <Route path="products/:id/edit" element={<EditPtoduct/>} />
+       <Route path="orders" element={<OrderManagement/>}/>
+      </Route>
     </Routes>
     </BrowserRouter>
   )
