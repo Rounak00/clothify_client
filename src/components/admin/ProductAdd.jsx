@@ -4,7 +4,8 @@ import toast from "react-hot-toast";
 import { useDispatch } from "react-redux";
 import { createProduct } from "../../redux/slices/adminProductSlice";
 import { useNavigate } from "react-router-dom";
-
+import { addProductSchema } from "../../validators";
+import { ZodError } from "zod";
 const ProductAdd = () => {
   const [productData, setProductData] = useState({
     name: "",
@@ -89,13 +90,17 @@ const ProductAdd = () => {
   const handleSubmit = async (e) => {
     try {
       e.preventDefault();
-      await dispatch(createProduct(productData));
+      const validatedData = addProductSchema.parse(productData);
+    await dispatch(createProduct(validatedData));
       toast.success("Product added successfully");
       navigate("/admin/products");
     } catch (err) {
-      toast.error("Error in product add");
-    }
-  };
+      if (err instanceof ZodError) {
+        toast.error(err.errors[0].message);
+      } else {
+        toast.error("Error in product add");
+      }
+  }};
   return (
     <div className="max-w-5xl mx-auto p-6 shadow-md rounded-md">
       <h2 className="text-3xl font-bold mb-6">Edit Product</h2>

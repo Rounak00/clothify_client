@@ -7,6 +7,7 @@ import { Link } from "react-router-dom";
 import toast from "react-hot-toast";
 import axios from "axios";
 
+
 const Footer = () => {
   const [loading, setLoading] = useState(false);
   const [email,setEmail]=useState("");

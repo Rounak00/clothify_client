@@ -5,6 +5,7 @@ import { registerUser } from '../redux/slices/authSlice';
 import { useDispatch, useSelector } from 'react-redux';
 import toast from 'react-hot-toast';
 import { mergeCart } from '../redux/slices/cartSlice';
+import { registerSchema } from '../validators';
 
 const Register = () => {
     const [email, setEmail] = useState("");
@@ -33,6 +34,17 @@ const Register = () => {
     },[user,guestId,cart,navigate,dispatch,isCheckoutRedirect]);
     const handleSubmit = (e) => {
         e.preventDefault();
+        const zodResult = registerSchema.safeParse({
+            name,
+            email,
+            password,
+          });
+        
+          if (!zodResult.success) {
+            const errorMessages = zodResult.error.errors.map((err) => err.message).join(", ");
+            toast.error(errorMessages);
+            return;
+          }
         dispatch(registerUser({ email, password, name })).then((res) => {
             if (res.error) {
                 toast.error(res.payload.message);

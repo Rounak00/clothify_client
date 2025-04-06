@@ -7,6 +7,8 @@ import {
 } from "../../redux/slices/productSlice";
 import axios from "axios";
 import toast from "react-hot-toast";
+import { editProductSchema } from "../../validators";
+import { ZodError } from "zod";
 
 const EditPtoduct = () => {
   const dispatch = useDispatch();
@@ -98,9 +100,20 @@ const EditPtoduct = () => {
     }
   };
   const handleSubmit = async (e) => {
+    try{ 
     e.preventDefault();
-    await dispatch(updateProduct({ id, productData }));
+    const validatedData = editProductSchema.parse(productData);
+    await dispatch(updateProduct({ id, validatedData }));
     navigate("/admin/products");
+    }
+    catch(err){
+      if (err instanceof ZodError) {
+        toast.error(err.errors[0].message);
+      }else {
+        toast.error("Error in product update");
+      }
+
+    }
   };
 
   if (loading) return <p className="text-center text-gray-500">Loading ...</p>;
