@@ -18,8 +18,13 @@ import UserManagement from './components/admin/UserManagement';
 import ProductManagement from './components/admin/ProductManagement';
 import EditPtoduct from './components/admin/EditPtoduct';
 import OrderManagement from './components/admin/OrderManagement';
+import {Provider} from "react-redux"
+import store from "./redux/store"
+import ProtectedRoute from './private/ProtectedRoute';
+import ProductAdd from './components/admin/ProductAdd';
 const App = () => {
   return (
+    <Provider store={store}>
     <BrowserRouter>
       <Toaster position='top-right' gutter={8} />
     <Routes>
@@ -35,15 +40,17 @@ const App = () => {
         <Route path="product/:id" element={<ProductDetails />} />
         <Route path="collections/:collection" element={<Collection />} />
       </Route>
-      <Route path="/admin" element={<AdminLayout/>} >{/*Admin Layout*/}
+      <Route path="/admin" element={<ProtectedRoute role="admin"><AdminLayout/></ProtectedRoute>} >{/*Admin Layout*/}
        <Route index element={<AdminHomePage/>}/>
        <Route path='users' element={<UserManagement/>}/>
        <Route path="products" element={<ProductManagement/>}/>
+       <Route path="products/add" element={<ProductAdd/>}/>
        <Route path="products/:id/edit" element={<EditPtoduct/>} />
        <Route path="orders" element={<OrderManagement/>}/>
       </Route>
     </Routes>
     </BrowserRouter>
+    </Provider>
   )
 }
 

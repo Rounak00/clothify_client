@@ -1,37 +1,22 @@
-import React from 'react'
+import React, { useEffect } from 'react'
+import {useNavigate} from "react-router-dom"
+import {useDispatch, useSelector} from "react-redux"
+import {clearCart} from "../redux/slices/cartSlice"
 
-const checkout={
-  _id:"12345",
-  createdAt:new Date(),
-  checkoutItems:[
-    {
-    productId:"1",
-    name:"Jacket",
-    color:"black",
-    size:"M",
-    price:1240,
-    quantity:1,
-    image:"https://picsum.photos/150?random=1"
-  },
-    {
-      productId: "2",
-      name: "Jacket",
-      color: "black",
-      size: "XL",
-      price: 1240,
-      quantity: 1,
-      image: "https://picsum.photos/150?random=2"
-    }
-],
-shippingAddress:{
-  address:"123 Fashion Street",
-  city:"Bardhaman",
-  country:"India"
-}
-}
 
 const OrderConfirnation = () => {
- 
+  const dispatch=useDispatch();
+  const navigate=useNavigate();
+  const {checkout}=useSelector((state)=>state.checkout);
+  useEffect(()=>{
+    if(checkout && checkout._id){
+      dispatch(clearCart());
+      localStorage.removeItem("cart")
+    }
+    else{
+      navigate("/my-otrders");
+    }
+  },[checkout,dispatch,navigate])
   const calculateEstimatedDelivery=(createdAt)=>{
     const orderDate=new Date(createdAt);
     orderDate.setDate(orderDate.getDate()+10);

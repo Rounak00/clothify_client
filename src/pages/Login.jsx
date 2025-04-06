@@ -1,13 +1,45 @@
-import React, { useState } from 'react'
-import { Link } from 'react-router-dom';
+import React, { useEffect, useState } from 'react'
+import { Link, useLocation, useNavigate } from 'react-router-dom';
 import loginImg from "../assets/login.webp"
+import { loginUser } from '../redux/slices/authSlice';
+import { useDispatch, useSelector } from 'react-redux';
+import toast from 'react-hot-toast';
+import { mergeCart } from '../redux/slices/cartSlice';
 
 const Login = () => {
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
+    const dispatch=useDispatch();
+    const navigate=useNavigate();
+    const location=useLocation();
+    const {user,guestId,loading}=useSelector((state)=>state.auth);
+    const {cart}=useSelector((state)=>state.cart);
 
+    const redirect=new URLSearchParams(location.search).get("redirect") || "/";
+    const isCheckoutRedirect=redirect.includes("checkout") ;
+    useEffect(()=>{
+        
+        if(user){
+            if(cart?.products?.length>0 && guestId){
+              dispatch(mergeCart({guestId,user}))
+              .then(()=>{
+                navigate(isCheckoutRedirect?"/checkout":"/");
+              });
+            }else{
+                navigate(isCheckoutRedirect?"/checkout":"/");
+            }
+        }
+    },[user,guestId,cart,navigate,dispatch,isCheckoutRedirect]);
     const handleSubmit=(e)=>{
         e.preventDefault();
+        dispatch(loginUser({email,password})).unwrap().then((res)=>{
+            if(res.error){
+                toast.error(res.payload.message);
+                
+            }else{
+                toast.success("Login Successful");
+            }
+        })
     }
 
     return (
@@ -29,10 +61,12 @@ const Login = () => {
                         <label className="block text-sm font-semibold mb-2">Password</label>
                         <input placeholder="Enter your password" type="password" value={password} onChange={(e) => setPassword(e.target.value)} className='w-full p-2 border rounded' />
                     </div>
-                    <button type='submit' className='w-full bg-black text-white font-semibold rounded-lg p-2 hover:bg-gray-800 transition'>Log In</button>
+                    <button type='submit' className='w-full bg-black text-white font-semibold rounded-lg p-2 hover:bg-gray-800 transition'>
+                        {loading ? "Signing In ..." : "Sign In"}
+                         </button>
                     <p className='mt-6 text-center text-sm'>
                         Don't have an account ?
-                        <Link to="/register" className='text-red-600'>
+                        <Link to={`/register?redirect=${encodeURIComponent(redirect)}`} className='text-red-600'>
                          {" "}Register
                         </Link>
                     </p>

@@ -1,21 +1,31 @@
-import React from 'react'
+import React, { useEffect } from 'react'
+import { useDispatch, useSelector } from 'react-redux'
+import { useNavigate } from 'react-router-dom';
+import { fetchAllOrders, updateOrderStatus } from '../../redux/slices/adminOrderSlice';
 
 
-const orders=[
-    {
-        _id:125487,
-        user:{
-            name:"John Wick",
-        },
-        totalPrice:1100,
-        status:"Processing",
-    }
-]
-
-const handleStatusChange=(orderId,action)=>{
-
-}
 const OrderManagement = () => {
+    const dispatch=useDispatch()
+    const navigate=useNavigate();
+
+    const {user}=useSelector((state)=>state.auth);
+    const {orders,loading,error}=useSelector((state)=>state.adminOrder);
+    useEffect(()=>{
+      if(!user || user.role!=="admin"){
+        navigate("/");
+      }else{
+        dispatch(fetchAllOrders());
+      }
+    },[dispatch,user,navigate])
+    const handleStatusChange=(orderId,action)=>{
+      dispatch(updateOrderStatus({orderId,status:action}));
+    }
+    if(loading){
+        return <p className='text-gray-600 text-center'>Loading ...</p>
+    }
+    if(error){
+        return <p className='text-red-500 text-center'>Error : {error}</p>
+    }
   return (
     <div className="max-w-7xl mx-auto p-6">
         <h2 className='text-2xl font-bold mb-6'>Order Management</h2>
@@ -38,7 +48,7 @@ const OrderManagement = () => {
                                 #{order._id}
                             </td>
                             <td className="p-4">{order.user.name}</td>
-                               <td className="p-4">₹ {order.totalPrice}</td>
+                               <td className="p-4">₹ {order.totalPrice.toFixed(2)}</td>
                             <td className="p-4">
                                 <select value={order.status} onChange={(e)=>handleStatusChange(order._id,e.target.value)} className='bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500  focus:border-blue-500 block p-2.5'>
                                    <option value="Processing">Processing</option>
