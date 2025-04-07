@@ -58,3 +58,13 @@ export const addProductSchema = z.object({
       .array(z.object({ url: z.string().url(), altText: z.string().optional() }))
       .min(1, "At least one image is required"),
   });
+
+ export  const shippingSchema = z.object({
+    firstName: z.string().min(1, "First name is required"),
+    lastName: z.string().min(1, "Last name is required"),
+    address: z.string().min(1, "Address is required"),
+    city: z.string().min(1, "City is required"),
+    postalCode: z.string().min(4, "Postal Code at least 4 digits"),
+    country: z.string().min(1, "Country is required"),
+    phone: z.string().min(10, "Phone must be at least 10 digits"),
+  });

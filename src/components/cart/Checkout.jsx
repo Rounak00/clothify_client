@@ -5,7 +5,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { createCheckout } from "../../redux/slices/checkoutSlice";
 import axios from "axios";
 import toast from "react-hot-toast";
-
+import { shippingSchema } from "../../validators";
 
 const Checkout = () => {
   const navigate = useNavigate();
@@ -28,55 +28,74 @@ const Checkout = () => {
     }
   }, [cart, navigate]);
 
-  const handleCreateCheckout = async(e) => {
+  const handleCreateCheckout = async (e) => {
     e.preventDefault();
-    if(cart && cart.products.length > 0){
-      const res=await dispatch(createCheckout({ checkoutItems:cart.products, shippingAddress, paymentMethod:"Paypal",totalPrice: cart.totalPrice}));
-      
-      if(res.payload?.success && res.payload?.data._id){
+    const validation = shippingSchema.safeParse(shippingAddress);
+    if (!validation.success) {
+      // Show only the first error in toast
+      toast.error(validation.error.errors[0].message);
+      return;
+    }
+    if (cart && cart.products.length > 0) {
+      const res = await dispatch(
+        createCheckout({
+          checkoutItems: cart.products,
+          shippingAddress,
+          paymentMethod: "Paypal",
+          totalPrice: cart.totalPrice,
+        })
+      );
+
+      if (res.payload?.success && res.payload?.data._id) {
         setCheckoutId(res.payload.data._id);
       }
     }
   };
-  const handlePaymentSuccess =async (details) => {
-    try{
-       await axios.put(`${import.meta.env.VITE_BACKEND_URL}/api/checkout/${checkoutId}/pay`,
-        {paymentStatus:"Paid",paymentDetails:details},
-        {headers:{
-          Authorization:`Bearer ${localStorage.getItem("userToken")}`,
-        }}
+  const handlePaymentSuccess = async (details) => {
+    try {
+      await axios.put(
+        `${import.meta.env.VITE_BACKEND_URL}/api/checkout/${checkoutId}/pay`,
+        { paymentStatus: "Paid", paymentDetails: details },
+        {
+          headers: {
+            Authorization: `Bearer ${localStorage.getItem("userToken")}`,
+          },
+        }
       );
-      
-        await handleFinalzeCheckout(checkoutId)
-    
-    }catch(error){
+
+      await handleFinalzeCheckout(checkoutId);
+    } catch (error) {
       toast.error("Error payment");
     }
   };
-  const handleFinalzeCheckout=async (checkoutId)=>{
-    try{
-       await axios.post(`${import.meta.env.VITE_BACKEND_URL}/api/checkout/${checkoutId}/finalize`,
+  const handleFinalzeCheckout = async (checkoutId) => {
+    try {
+      await axios.post(
+        `${
+          import.meta.env.VITE_BACKEND_URL
+        }/api/checkout/${checkoutId}/finalize`,
         {},
-        {headers:{
-          Authorization:`Bearer ${localStorage.getItem("userToken")}`,
-        }}  
-       );
-      
-         toast.success("Order placed successfully");
-         navigate("/order-confirmation");
-      
-    }catch(error){
-       toast.error("Order placement failed, Try again.");
-    }
-  }
+        {
+          headers: {
+            Authorization: `Bearer ${localStorage.getItem("userToken")}`,
+          },
+        }
+      );
 
-  if(loading){
-    return <p className="text-center text-gray-500">Loading...</p>; 
+      toast.success("Order placed successfully");
+      navigate("/order-confirmation");
+    } catch (error) {
+      toast.error("Order placement failed, Try again.");
+    }
+  };
+
+  if (loading) {
+    return <p className="text-center text-gray-500">Loading...</p>;
   }
-  if(error){
-    return <p className="text-center text-gray-500">Error: {error}</p>; 
+  if (error) {
+    return <p className="text-center text-gray-500">Error: {error}</p>;
   }
-  if(!cart || !cart.products || cart.products.length === 0){
+  if (!cart || !cart.products || cart.products.length === 0) {
     return <p className="text-center text-gray-500">Your cart is empty.</p>;
   }
   return (
@@ -89,7 +108,7 @@ const Checkout = () => {
             <label className="block text-gray-700">Email</label>
             <input
               type="email"
-              value={user? user.email : ""}
+              value={user ? user.email : ""}
               disabled
               className="w-full p-2 border rounded"
             />
@@ -215,13 +234,12 @@ const Checkout = () => {
             ) : (
               <div>
                 <h3 className="text-lg mb-4">Pay with Paypal</h3>
-                
+
                 <PaypalButton
                   amount={cart.totalPrice}
                   onSuccess={handlePaymentSuccess}
                   onError={(err) => alert("Payment failed, Try again.")}
                 />
-               
               </div>
             )}
           </div>
