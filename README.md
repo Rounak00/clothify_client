@@ -27,7 +27,7 @@ Currently, two official plugins are available:
     <td>Sign In or Log In Page<br/><img src="./preview/login.png" alt="Login Page" /></td>
   </tr>
   <tr>
-    <td>Home Page<br/> <img src="./preview/home.png" alt="Home Page" /></td>
+    <td colspan="2">Home Page<br/> <img src="./preview/home.png" alt="Home Page" /></td>
   </tr>
   <tr>
     <td>Collections Page <br/><img src="./preview/collections.png" alt="Collections Page" /></td>
