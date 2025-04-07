@@ -33,11 +33,37 @@ Currently, two official plugins are available:
     <td>Collections Page <br/><img src="./preview/collections.png" alt="Collections Page" /></td>
     <td>Cart Functionality <br/><img src="./preview/cart.png" alt="Cart Functionality" /></td>
   </tr>
+  <tr>
+    <td>Peoduct Details Page <br/><img src="./preview/product-details.png" alt="Product Deails Page" /></td>
+    <td>Checkout Page <br/><img src="./preview/checkout.png" alt="Checkout Page" /></td>
+  </tr>
+ <tr>
+    <td>Checkout Summary Page <br/><img src="./preview/buy.png" alt="Checkout Summary Page" /></td>
+    <td>Order Details Page <br/><img src="./preview/order-details.png" alt="Order Details Page" /></td>
+  </tr>
+ <tr>
+    <td colspan="2">User Profile Page<br/> <img src="./preview/profile.png" alt="User Profile Page" /></td>
+  </tr>
+ <tr>
+    <td colspan="2">Admin Page<br/> <img src="./preview/admin-nav.png" alt="Admin Navbar" /></td>
+  </tr>
+ <tr>
+    <td>Admin Dashboard <br/><img src="./preview/admin-dashboard.png" alt="Admin Dashboard" /></td>
+    <td>Order Management Page <br/><img src="./preview/orders-management.png" alt="Order Management Page" /></td>
+  </tr>
+ <tr>
+    <td>Product Management Page <br/><img src="./preview/product-management.png" alt="Product Management Page" /></td>
+    <td>User Management Page <br/><img src="./preview/user-management.png" alt="User Management Page" /></td>
+  </tr>
+<tr>
+    <td colspan="2">Product Add and Edit Layout<br/> <img src="./preview/product-add.png" alt="Add Product Page" /></td>
+  </tr>
  </table>
 <br/>
 <br/>
-Here I have actually keep the frontend 
-# Getting Started
+
+## Get Started
+Here I have actually keep the frontend of Clothify web application.
 
 ## Clone the repo
 First, clone the repo:
