@@ -1,9 +1,10 @@
 import {createAsyncThunk, createSlice} from "@reduxjs/toolkit";
-import axios from "axios";
+import axiosInstance from "../../service/axiosInstance";
+
 
 export const fetchUsers = createAsyncThunk("admin/fetchUsers", async (_, {rejectWithValue}) => {
     try {
-        const response = await axios.get(`${import.meta.env.VITE_BACKEND_URL}/api/admin/all-users`, {
+        const response = await axiosInstance.get(`/api/admin/all-users`, {
             headers: {
                 Authorization: `Bearer ${localStorage.getItem("userToken")}`,
             },
@@ -16,7 +17,7 @@ export const fetchUsers = createAsyncThunk("admin/fetchUsers", async (_, {reject
 
 export const addUser = createAsyncThunk("admin/addUser", async (userData, {rejectWithValue}) => {
     try {
-        const response = await axios.post(`${import.meta.env.VITE_BACKEND_URL}/api/admin/add-user`, userData, {
+        const response = await axiosInstance.post(`/api/admin/add-user`, userData, {
             headers: {
                 Authorization: `Bearer ${localStorage.getItem("userToken")}`,
             },
@@ -29,7 +30,7 @@ export const addUser = createAsyncThunk("admin/addUser", async (userData, {rejec
 
 export const updateUser = createAsyncThunk("admin/updateUser", async ({id,name,email,role}, {rejectWithValue}) => {
     try {
-        const response = await axios.put(`${import.meta.env.VITE_BACKEND_URL}/api/admin/update-user/${id}`, {name,email,role}, {
+        const response = await axiosInstance.put(`/api/admin/update-user/${id}`, {name,email,role}, {
             headers: {
                 Authorization: `Bearer ${localStorage.getItem("userToken")}`,
             },
@@ -42,7 +43,7 @@ export const updateUser = createAsyncThunk("admin/updateUser", async ({id,name,e
 
 export const deleteUser = createAsyncThunk("admin/deleteUser", async (id, {rejectWithValue}) => {
     try {
-        const response = await axios.delete(`${import.meta.env.VITE_BACKEND_URL}/api/admin/delete-user/${id}`, {
+        const response = await axiosInstance.delete(`/api/admin/delete-user/${id}`, {
             headers: {
                 Authorization: `Bearer ${localStorage.getItem("userToken")}`,
             },

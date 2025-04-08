@@ -1,4 +1,3 @@
-import axios from "axios";
 import React, { useState } from "react";
 import toast from "react-hot-toast";
 import { useDispatch } from "react-redux";
@@ -6,6 +5,7 @@ import { createProduct } from "../../redux/slices/adminProductSlice";
 import { useNavigate } from "react-router-dom";
 import { addProductSchema } from "../../validators";
 import { ZodError } from "zod";
+import axiosInstance from "../../service/axiosInstance";
 const ProductAdd = () => {
   const [productData, setProductData] = useState({
     name: "",
@@ -44,8 +44,8 @@ const ProductAdd = () => {
 
     try {
       setUploading(true);
-      const { data } = await axios.post(
-        `${import.meta.env.VITE_BACKEND_URL}/api/upload`,
+      const { data } = await axiosInstance.post(
+        `/api/upload`,
         formData,
         {
           headers: { "Content-Type": "multipart/form-data" },
@@ -71,8 +71,8 @@ const ProductAdd = () => {
           ...prevData,
           images: prevData.images.filter((i) => i.url !== imageUrl),
         }));
-        await axios.delete(
-          `${import.meta.env.VITE_BACKEND_URL}/api/upload/cloudinary-delete`,
+        await axiosInstance.delete(
+          `/api/upload/cloudinary-delete`,
           {
             data: { imageUrl },
             headers: {

@@ -1,5 +1,6 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 import axios from "axios";
+import axiosInstance from "../../service/axiosInstance";
 
 export const fetchProductsByFilters = createAsyncThunk(
   "product/fetchByFilters",
@@ -51,8 +52,8 @@ export const updateProduct = createAsyncThunk(
   "product/updateProduct",
   async ({ id, productData }) => {
     
-    const response = await axios.put(
-      `${import.meta.env.VITE_BACKEND_URL}/api/product/${id}`,
+    const response = await axiosInstance.put(
+      `/api/product/${id}`,
       productData,
       {
         headers: {

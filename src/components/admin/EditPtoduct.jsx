@@ -5,10 +5,10 @@ import {
   fetchProductDetails,
   updateProduct,
 } from "../../redux/slices/productSlice";
-import axios from "axios";
 import toast from "react-hot-toast";
 import { editProductSchema } from "../../validators";
 import { ZodError } from "zod";
+import axiosInstance from "../../service/axiosInstance";
 
 const EditPtoduct = () => {
   const dispatch = useDispatch();
@@ -56,8 +56,8 @@ const EditPtoduct = () => {
 
     try {
       setUploading(true);
-      const { data } = await axios.post(
-        `${import.meta.env.VITE_BACKEND_URL}/api/upload`,
+      const { data } = await axiosInstance.post(
+        `/api/upload`,
         formData,
         {
           headers: { "Content-Type": "multipart/form-data" },
@@ -83,8 +83,8 @@ const EditPtoduct = () => {
           ...prevData,
           images: prevData.images.filter((i) => i.url !== imageUrl),
         }));
-        await axios.delete(
-          `${import.meta.env.VITE_BACKEND_URL}/api/upload/cloudinary-delete`,
+        await axiosInstance.delete(
+          `/api/upload/cloudinary-delete`,
           {
             data: { imageUrl },
             headers: {

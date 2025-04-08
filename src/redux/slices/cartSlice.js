@@ -1,5 +1,6 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 import axios from "axios";
+import axiosInstance from "../../service/axiosInstance";
 
 const loadCartFromLocalStorage = () => {
   const cart = localStorage.getItem("cart");
@@ -91,7 +92,7 @@ export const mergeCart = createAsyncThunk(
     "cart/mergeCart",
     async ({userId,guestId},{rejectWithValue}) => {
         try{
-            const response= await axios.post(`${import.meta.env.VITE_BACKEND_URL}/api/cart/merge`,{
+            const response= await axiosInstance.post(`/api/cart/merge`,{
                 userId,
                 guestId
             },{

@@ -1,9 +1,10 @@
 import {createAsyncThunk, createSlice} from "@reduxjs/toolkit";
-import axios from "axios";
+import axiosInstance from "../../service/axiosInstance";
+
 
 export const fetchAllProducts = createAsyncThunk("admin/fetchAllProducts", async (_, {rejectWithValue}) => {
     try {
-        const response = await axios.get(`${import.meta.env.VITE_BACKEND_URL}/api/admin/all-products`, {
+        const response = await axiosInstance.get(`/api/admin/all-products`, {
             headers: {
                 Authorization: `Bearer ${localStorage.getItem("userToken")}`,
             },
@@ -16,7 +17,7 @@ export const fetchAllProducts = createAsyncThunk("admin/fetchAllProducts", async
 
 export const createProduct = createAsyncThunk("admin/createProduct", async (productData, {rejectWithValue}) => {
     try {
-        const response = await axios.post(`${import.meta.env.VITE_BACKEND_URL}/api/product`, productData, {
+        const response = await axiosInstance.post(`/api/product`, productData, {
             headers: {
                 Authorization: `Bearer ${localStorage.getItem("userToken")}`,
             },
@@ -29,7 +30,7 @@ export const createProduct = createAsyncThunk("admin/createProduct", async (prod
 
 export const updateProduct = createAsyncThunk("admin/updateProduct", async ({id,productData}, {rejectWithValue}) => {
     try {
-        const response = await axios.put(`${import.meta.env.VITE_BACKEND_URL}/api/product/${id}`, productData,
+        const response = await axiosInstance.put(`/api/product/${id}`, productData,
         {
             headers: {
                 Authorization: `Bearer ${localStorage.getItem("userToken")}`,
@@ -43,7 +44,7 @@ export const updateProduct = createAsyncThunk("admin/updateProduct", async ({id,
 
 export const  deleteProduct = createAsyncThunk("admin/deleteProduct", async (id, {rejectWithValue}) => {
     try {
-        const response = await axios.delete(`${import.meta.env.VITE_BACKEND_URL}/api/product/${id}`, {
+        const response = await axiosInstance.delete(`/api/product/${id}`, {
             headers: {
                 Authorization: `Bearer ${localStorage.getItem("userToken")}`,
             },

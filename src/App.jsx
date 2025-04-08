@@ -1,5 +1,5 @@
-import React from 'react';
-import {BrowserRouter,Navigate,Route, Routes} from "react-router-dom"
+import React, { useEffect } from 'react';
+import {BrowserRouter,Navigate,Route, Routes, useNavigate} from "react-router-dom"
 import UserLayout from './components/Layout/UserLayout';
 import Home from './pages/Home';
 import {Toaster} from "react-hot-toast"
@@ -22,10 +22,22 @@ import {Provider} from "react-redux"
 import store from "./redux/store"
 import ProtectedRoute from './private/ProtectedRoute';
 import ProductAdd from './components/admin/ProductAdd';
+import { setupInterceptors } from "./service/axiosInstance";
+const InterceptorSetup = () => {
+  const navigate = useNavigate();
+
+  useEffect(() => {
+    setupInterceptors(store, navigate);
+  }, [navigate]);
+
+  return null; // this component only sets up interceptors
+};
 const App = () => {
+  
   return (
     <Provider store={store}>
     <BrowserRouter>
+    <InterceptorSetup/>
       <Toaster position='top-right' gutter={8} />
     <Routes>
       <Route path="/" element={<UserLayout/>}>

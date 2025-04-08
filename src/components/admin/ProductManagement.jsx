@@ -3,7 +3,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { Link } from 'react-router-dom'
 import { deleteProduct, fetchAllProducts } from '../../redux/slices/adminProductSlice';
 import toast from 'react-hot-toast';
-import axios from 'axios';
+import axiosInstance from '../../service/axiosInstance';
 
 
 const ProductManagement = () => {
@@ -19,8 +19,8 @@ const ProductManagement = () => {
         if (!imageUrl) {
           toast.error("Image url is not provided");
         } else {
-          await axios.delete(
-            `${import.meta.env.VITE_BACKEND_URL}/api/upload/cloudinary-delete`,
+          await axiosInstance.delete(
+            `/api/upload/cloudinary-delete`,
             {
               data: { imageUrl },
               headers: {
