@@ -143,7 +143,7 @@ const ProductDetails = ({ productId }) => {
                     }`}
                     style={{
                       backgroundColor: color.toLocaleLowerCase(),
-                      filter: "brightness(0.5)",
+                      filter: "brightness(0.7)",
                     }}
                     onClick={() => setSelectedColor(color)}
                   ></button>
