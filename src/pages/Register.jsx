@@ -77,7 +77,7 @@ const Register = () => {
                         <label className="block text-sm font-semibold mb-2">Password</label>
                         <input placeholder="Enter your password" type="password" value={password} onChange={(e) => setPassword(e.target.value)} className='w-full p-2 border rounded' />
                     </div>
-                    <button type='submit' className='w-full bg-black text-white font-semibold rounded-lg p-2 hover:bg-gray-800 transition'>
+                    <button type='submit' className='w-full bg-black text-white font-semibold rounded-lg p-2 hover:bg-gray-800 transition' disabled={loading}>
                         {loading ? "Signing Up ...":"Sign Up"}
                     </button>
                     <p className='mt-6 text-center text-sm'>

@@ -58,6 +58,7 @@ const Footer = () => {
             <button
               type="submit"
               className="bg-black text-white px-6 py-3 text-sm rounded-r-md hover:bg-gray-800 transition-all"
+              disabled={loading}
             >
               {loading ? "Subscribing..." : "Subscribe"}
             </button>
