@@ -35,7 +35,7 @@ const CartDrawer = ({ drawerOpen, toggleCartDrawer }) => {
         {cart && cart?.products?.length > 0 ? (
           <CartContents cart={cart} userId={userId} guestId={guestId} />
         ) : (
-          <p className="text-center text-gray-500">Your cart is empty.</p>
+          <p className="text-center text-gray-500 mt-[30%]">Your cart is empty.</p>
         )}
       </div>
       <div className="p-4 bg-white sticky bottom-0">
